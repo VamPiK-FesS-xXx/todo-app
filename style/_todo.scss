@@ -1,0 +1,111 @@
+.todo {
+    font-family: Roboto;
+    &__inner {
+        background-color: #10002b;
+        height: 100dvh;
+        width: 100%;
+        // display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5em;
+        padding-top: 25em;
+    }
+
+    &__container {
+        color: #fff;
+        max-width: 800px;
+        margin: 0 auto;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        gap: 1em;
+        background-color: #001d3d;
+        padding: 1em;
+        border-radius: 0.75em;
+    }
+
+    &__title {
+        font-size: 2.25em;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    &__container-functional {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        outline: 1px solid #fff;
+    }
+
+    &__container-tasks {
+        width: 100%;
+    }
+}
+.functional {
+    &__label {
+        font-size: 1.25em;
+        position: absolute;
+        padding: 0 0.4em;
+        transform: translateX(6.2%);
+        background-color: #001d3d;
+        z-index: 1;
+        transition: all 0.3s;
+    }
+    &__input {
+        // outline: 1px solid #fff;
+        background-color: transparent;
+        color: #fff;
+        font-size: 1em;
+        width: 100%;
+        padding: 1em;
+        z-index: 2;
+        &:focus ~ .functional__label {
+            transform: scale(0.8) translateY(-150%);
+            transition: all 0.3s;
+        }
+    }
+
+    &__btn {
+        padding: 0.75em;
+        color: #fff;
+        background-color: #124559;
+        text-transform: capitalize;
+        font-weight: 600;
+        height: 100%;
+        font-size: 1.25em;
+    }
+}
+.btn-add {
+}
+.tasks {
+    &__list {
+        display: grid;
+        gap: 0.75em;
+        position: relative;
+        &::before {
+            content: '';
+            background-color: green;
+            width: 100%;
+            height: 100%;
+        }
+        &::after {
+            content: '';
+            background-color: red;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__list-item {
+        padding: 1em;
+        border-radius: 0.75em;
+        display: flex;
+        background-color: #598392;
+    }
+
+    &__list-text {
+        font-size: 1.25em;
+    }
+}
