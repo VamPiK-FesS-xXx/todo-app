@@ -94,7 +94,7 @@ h6 {
 }
 .todo__inner {
   background-color: #10002b;
-  height: 100dvh;
+  min-height: 100dvh;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -148,7 +148,7 @@ h6 {
   z-index: 2;
 }
 .functional__input:focus ~ .functional__label {
-  transform: scale(0.8) translateY(-150%);
+  transform: scale(0.7) translateY(-175%);
   transition: all 0.3s;
 }
 .functional__btn {
