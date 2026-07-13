@@ -101,3 +101,7 @@ function renderNote() {
 	});
 }
 renderNote();
+/**
+ *
+ * new comments
+ */
