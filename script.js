@@ -87,14 +87,30 @@ function noteTemplate(note) {
 	taskList.insertAdjacentHTML(
 		'beforeend',
 		`
-        <li class="tasks__list-item ${note.status ? '' : 'complete'}">
-		<p class="tasks__list-text">${note.task}</p>
-        </li>
+        <li class="tasks__list-item">
+			<div class="tasks__list-bg">
+				<span class="tasks__bg bg-green">
+                    <i class="fa-solid fa-check"></i>
+                        complete
+                </span>
+				<span class="tasks__bg bg-red">
+                    delete
+                        <i class="fa-solid fa-trash"></i>
+                </span>
+			</div>
+				<p class="tasks__list-text">${note.task}</p>
+		</li>
         `,
 	);
 }
-
+function tryToMakeSlide() {}
 //render fucntion which sort through notes object
+/**
+ * need to make bg green and red with text in bgs
+ * find x in client and if x = 60 task change classname
+ * else if x = ??? task delete from array
+ * bg maybe can make with before after
+ */
 function renderNote() {
 	notes.forEach((note) => {
 		noteTemplate(note);
