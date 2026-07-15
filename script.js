@@ -98,7 +98,9 @@ function noteTemplate(note) {
                         <i class="fa-solid fa-trash"></i>
                 </span>
 			</div>
-				<p class="tasks__list-text">${note.task}</p>
+				<div class="tasks__list-text">
+				<p class = "tasks__text-paragraph">${note.task}</p>
+				</div>
 		</li>
         `,
 	);

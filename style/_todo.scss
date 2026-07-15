@@ -88,43 +88,9 @@
     }
 
     &__list-item {
-        padding: 1em;
         border-radius: 0.75em;
-        display: flex;
-        background-color: #598392;
         position: relative;
-        align-items: center;
-        z-index: 999;
-        // &::before {
-        //     content: 'Complete';
-        //     position: absolute;
-        //     background-color: green;
-        //     left: 0;
-        //     display: flex;
-        //     align-items: center;
-        //     justify-content: center;
-        //     z-index: -1;
-        //     padding: 1em;
-        //     height: 100%;
-        //     width: 30%;
-        //     border-top-left-radius: 0.75em;
-        //     border-bottom-left-radius: 0.75em;
-        // }
-        // &::after {
-        //     content: 'Delete';
-        //     position: absolute;
-        //     right: 0;
-        //     background-color: red;
-        //     display: flex;
-        //     align-items: center;
-        //     justify-content: center;
-        //     z-index: -1;
-        //     padding: 1em;
-        //     height: 100%;
-        //     width: 30%;
-        //     border-top-right-radius: 0.75em;
-        //     border-bottom-right-radius: 0.75em;
-        // }
+        overflow: hidden;
     }
     &__list-bg {
         position: absolute;
@@ -133,22 +99,40 @@
         justify-content: space-between;
         width: 100%;
         height: 100%;
+        inset: 0;
         z-index: 1;
-        right: 0;
-        left: 0;
     }
 
     &__bg {
         display: flex;
         align-items: center;
-        justify-content: center;
         height: 100%;
+        width: 50%;
         font-size: 1em;
         font-weight: 700;
         gap: 0.5em;
         padding: 0.5em;
+        box-shadow: -6px 0px 72px 0px rgba(34, 60, 80, 1);
     }
     &__list-text {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        background-color: #598392;
+        padding: 1em;
+        border-radius: 0.75em;
+        transition: all 0.3s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transform: translateX(25%);
+        // max translateX 25% on both sides
+    }
+
+    &__text-paragraph {
         font-size: 1.25em;
     }
 }
@@ -157,10 +141,13 @@
     left: 0;
     border-top-left-radius: 0.75em;
     border-bottom-left-radius: 0.75em;
+    // transform: translateX(50%);
+    //w111
 }
 .bg-red {
     background-color: red;
     right: 0;
     border-top-right-radius: 0.75em;
     border-bottom-right-radius: 0.75em;
+    justify-content: end;
 }
