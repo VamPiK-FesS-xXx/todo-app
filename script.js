@@ -41,7 +41,42 @@ const notes = [
  * from input value and then push it into template
  *
  */
+document.addEventListener('DOMContentLoaded', initializeNotes);
 
+function initializeNotes() {
+	const userNotes = taskList.querySelectorAll('li');
+	const userTextInNote = taskList.querySelector('.tasks__list-text');
+	userNotes.forEach((note) => {
+		console.log(note);
+		note.addEventListener('drag', (e) => {
+			const clinentX = e.clientX;
+			console.log(e);
+			userTextInNote.style.transform = `translateX(${clinentX}px`;
+		});
+	});
+	/**
+	 *
+	 * i recive all userNotes
+	 * a need to make on all notes addEventListener
+	 * for drag it on left or right
+	 * ---
+	 * also i need to think about drag 'item'
+	 * now i can drag only text and see the changes
+	 * but i need to drag the note body and slide it
+	 * now i need to think about it
+	 * ---
+	 * UPD
+	 * i can recieve a clientX and paste it in the style for transform it
+	 * also i need to do it smooth for user
+	 * i need to think how now i can transform my tasks by X
+	 * ---
+	 * OKAY I MADE IT SLIDE
+	 * but the first i need to know more about how drag work in web
+	 * also i need to make -x and x for complete and delete
+	 * my error was in one single s that i placed in a wrong place
+	 * okay i need to receive negative and positive x's and then i can change my classes or delete notes
+	 */
+}
 input.addEventListener('keydown', () => {
 	//fix the bag with empty input later
 	if (input.value.trim() === '') {
@@ -58,6 +93,7 @@ input.addEventListener('keydown', () => {
 		notes.push(userNote);
 		noteTemplate(userNote);
 		input.value = '';
+		initializeNotes();
 	}
 });
 
@@ -76,6 +112,7 @@ addBtn.addEventListener('click', () => {
 	notes.push(userNote);
 	noteTemplate(userNote);
 	input.value = '';
+	initializeNotes();
 });
 
 //template fucntion for tasks
@@ -105,7 +142,6 @@ function noteTemplate(note) {
         `,
 	);
 }
-function tryToMakeSlide() {}
 //render fucntion which sort through notes object
 /**
  * need to make bg green and red with text in bgs
@@ -117,7 +153,9 @@ function renderNote() {
 	notes.forEach((note) => {
 		noteTemplate(note);
 	});
+	initializeNotes();
 }
+
 renderNote();
 /**
  *
