@@ -18,7 +18,7 @@ const notes = [
 	},
 ];
 document.addEventListener('DOMContentLoaded', initializeNotes);
-
+// another branch finnaly
 function initializeNotes(event) {
 	let offsetX = 0;
 	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
