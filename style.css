@@ -98,7 +98,8 @@ h6 {
   width: 100%;
   justify-content: center;
   align-items: center;
-  padding: 0.5em;
+  padding: 0.75em;
+  padding-top: 15em;
 }
 .todo__container {
   color: #fff;
@@ -165,26 +166,66 @@ h6 {
 .tasks__list {
   display: grid;
   gap: 0.75em;
-  position: relative;
-}
-.tasks__list::before {
-  content: "";
-  background-color: green;
-  width: 100%;
-  height: 100%;
-}
-.tasks__list::after {
-  content: "";
-  background-color: red;
-  width: 100%;
-  height: 100%;
 }
 .tasks__list-item {
-  padding: 1em;
   border-radius: 0.75em;
+  position: relative;
+  overflow: hidden;
+}
+.tasks__list-bg {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  z-index: 1;
+}
+.tasks__bg {
   display: flex;
-  background-color: #598392;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+  font-size: 1em;
+  font-weight: 700;
+  gap: 0.5em;
+  padding: 0.5em;
+  box-shadow: -6px 0px 72px 0px rgb(34, 60, 80);
+  transition: all 0.3s;
 }
 .tasks__list-text {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background-color: #598392;
+  padding: 1em;
+  border-radius: 0.75em;
+  transition: all 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  touch-action: none;
+}
+.tasks__text-paragraph {
   font-size: 1.25em;
+  pointer-events: none;
+}
+
+.bg-green {
+  background-color: green;
+  left: 0;
+  border-top-left-radius: 0.75em;
+  border-bottom-left-radius: 0.75em;
+}
+
+.bg-red {
+  background-color: red;
+  right: 0;
+  border-top-right-radius: 0.75em;
+  border-bottom-right-radius: 0.75em;
+  justify-content: end;
 }
