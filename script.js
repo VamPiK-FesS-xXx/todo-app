@@ -30,7 +30,7 @@ const notes = [
 		status: false,
 	},
 	{
-		task: '123',
+		task: '456',
 		status: true,
 	},
 ];
@@ -44,18 +44,52 @@ const notes = [
 document.addEventListener('DOMContentLoaded', initializeNotes);
 
 function initializeNotes() {
-	const userNotes = taskList.querySelectorAll('li');
-	const userTextInNote = taskList.querySelector('.tasks__list-text');
-	userNotes.forEach((note) => {
-		console.log(note);
-		note.addEventListener('drag', (e) => {
-			const clinentX = e.clientX;
-			console.log(e);
-			userTextInNote.style.transform = `translateX(${clinentX}px`;
+	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
+	userTextInNote.forEach((note) => {
+		// note.addEventListener('pointerdown', (event) => {
+		// 	const positiveLayerX = event.layerX; // add a minus in begin if need a negative transform
+		// 	console.log(positiveLayerX);
+		// 	note.style.transform = `translateX(${positiveLayerX}px`;
+		// });
+		// note.addEventListener('pointermove', (e) => {
+		// 	console.log(e.target);
+		// 	if (e.target) {
+		// 		note.addEventListener('pointerdown', () => {
+		// 			const positiveLayerX = e.layerX; // add a minus in begin if need a negative transform
+		// 			console.log(positiveLayerX);
+		// 			note.style.transform = `translateX(${positiveLayerX}px`;
+		// 		});
+		// 	}
+		// });
+
+		note.addEventListener('pointerup', (e) => {
+			// console.log(e.target);
+			e.preventDefault();
+			if (e.target) {
+				note.addEventListener('pointermove', (e) => {
+					e.preventDefault();
+
+					const positiveLayerX = e.layerX; // add a minus in begin if need a negative transform
+					note.style.transform = `translateX(${parseInt(positiveLayerX / 25)}%`;
+					console.log(parseInt(positiveLayerX / 5));
+				});
+			}
 		});
 	});
+
+	function slideNote(note) {}
+	// userTextInNote.forEach((note, index) => {
+	// 	note.addEventListener('poi', (e) => {
+	// 		const positiveClientX = e.clientX;
+	// 		const negativeClientX = -e.clientX;
+	// 		userTextInNote.style.transform = `translateX(${negativeClientX}px`;
+	// 		if (negativeClientX >= -25) {
+	// 			console.log('delete note');
+	// 		}
+	// 	});
+	// });
 	/**
-	 *
+	 *FOR NEGATIVE X 100 PX FOR POSITIVE 120 PX
 	 * i recive all userNotes
 	 * a need to make on all notes addEventListener
 	 * for drag it on left or right
@@ -75,6 +109,10 @@ function initializeNotes() {
 	 * also i need to make -x and x for complete and delete
 	 * my error was in one single s that i placed in a wrong place
 	 * okay i need to receive negative and positive x's and then i can change my classes or delete notes
+	 * ---
+	 * need to make my notes slide only on x axis and drag it only on the left or right
+	 * now i have a problem with one that, that i'm using a drag and it take item and wait
+	 * till i'm drop it into the drop zone
 	 */
 }
 input.addEventListener('keydown', () => {
@@ -92,8 +130,8 @@ input.addEventListener('keydown', () => {
 
 		notes.push(userNote);
 		noteTemplate(userNote);
+		initializeNotes(userNote);
 		input.value = '';
-		initializeNotes();
 	}
 });
 
@@ -111,8 +149,9 @@ addBtn.addEventListener('click', () => {
 
 	notes.push(userNote);
 	noteTemplate(userNote);
+	initializeNotes(userNote);
+	console.log(userNote);
 	input.value = '';
-	initializeNotes();
 });
 
 //template fucntion for tasks
@@ -124,7 +163,7 @@ function noteTemplate(note) {
 	taskList.insertAdjacentHTML(
 		'beforeend',
 		`
-        <li class="tasks__list-item">
+        <li class="tasks__list-item"  >
 			<div class="tasks__list-bg">
 				<span class="tasks__bg bg-green">
                     <i class="fa-solid fa-check"></i>
@@ -135,8 +174,8 @@ function noteTemplate(note) {
                         <i class="fa-solid fa-trash"></i>
                 </span>
 			</div>
-				<div class="tasks__list-text">
-				<p class = "tasks__text-paragraph">${note.task}</p>
+				<div class="tasks__list-text" isTrusted='true' isPrimary=true pointerId=2 >
+					<p class = "tasks__text-paragraph">${note.task}</p>
 				</div>
 		</li>
         `,
@@ -152,11 +191,12 @@ function noteTemplate(note) {
 function renderNote() {
 	notes.forEach((note) => {
 		noteTemplate(note);
+		initializeNotes(note);
 	});
-	initializeNotes();
 }
 
 renderNote();
+
 /**
  *
  * new comments
