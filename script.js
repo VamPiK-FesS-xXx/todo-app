@@ -19,33 +19,59 @@ const notes = [
 ];
 document.addEventListener('DOMContentLoaded', initializeNotes);
 // another branch finnaly
-function initializeNotes(event) {
-	let offsetX = 0;
+
+/**
+ * ### functionality
+ * ---
+ *  - find the mark where slide can be stopped
+ *  - change class by index if complete
+ *  - delete for notes by index
+ *  - make functional if user click on the task then will appear controls
+ *
+ * ---
+ * also think about changing classes of tasks
+ */
+function initializeNotes() {
 	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
 	userTextInNote.forEach((note) => {
+		let offsetX = 0;
+		let initialLeft = 0;
+		let currentDelta = 0;
+		let THRESHOLD = 150;
 		function beginSliding(e) {
-			offsetX = e.clientX - note.getBoundingClientRect().left;
-			console.log(offsetX);
+			e.preventDefault();
+			const rect = note.getBoundingClientRect();
+			initialLeft = rect.left;
+			offsetX = e.clientX - initialLeft;
 			note.onpointermove = slide;
 			note.setPointerCapture(e.pointerId);
-			console.log(e);
 		}
 
 		function stopSliding(e) {
+			e.preventDefault();
 			note.onpointermove = null;
 			note.releasePointerCapture(e.pointerId);
 		}
 		function slide(e) {
-			const clientX = e.clientX - offsetX;
-			note.style.transform = `translateX(${clientX}px`;
-			console.log(e.clientX);
+			e.preventDefault();
+			const desiredLeft = e.clientX - offsetX;
+			const deltaX = desiredLeft - initialLeft;
+			if (Math.abs(deltaX) > THRESHOLD) {
+				note.style.transform = 'translateX(0px)';
+				return;
+			}
+			note.style.transform = `translateX(${deltaX}px)`;
 		}
 
 		note.onpointerdown = beginSliding;
 		note.onpointerup = stopSliding;
 	});
 }
-
+/**
+ * #bugs
+ * ---
+ * - fix input catch error
+ */
 input.addEventListener('keydown', () => {
 	//fix the bag with empty input later
 	if (input.value.trim() === '') {
@@ -53,19 +79,27 @@ input.addEventListener('keydown', () => {
 		inputContainer.style.outline = '1px solid red';
 		addBtn.style.background = 'red';
 		return;
-	} else if (event.key === 'Enter') {
+	} else if (input.length > 0) {
+		label.style.color = 'orange';
+		inputContainer.style.outline = '1px solid orange';
+		addBtn.style.background = 'orange';
+	}
+	if (event.key === 'Enter') {
 		const userNote = {
 			task: input.value,
 			status: false,
 		};
-
 		notes.push(userNote);
 		noteTemplate(userNote);
-		initializeNotes(userNote);
 		input.value = '';
+		initializeNotes();
 	}
 });
-
+/**
+ * #bugs
+ * ---
+ * - fix input catch error
+ */
 addBtn.addEventListener('click', () => {
 	if (input.value.trim() === '') {
 		label.style.color = 'red';
@@ -80,8 +114,7 @@ addBtn.addEventListener('click', () => {
 
 	notes.push(userNote);
 	noteTemplate(userNote);
-	initializeNotes(userNote);
-	console.log(userNote);
+	initializeNotes();
 	input.value = '';
 });
 
@@ -102,7 +135,7 @@ function noteTemplate(note) {
                         <i class="fa-solid fa-trash"></i>
                 </span>
 			</div>
-				<div class="tasks__list-text" isTrusted='true' isPrimary=true pointerId=2 >
+				<div class="tasks__list-text" isTrusted='true' isPrimary=true>
 					<p class = "tasks__text-paragraph">${note.task}</p>
 				</div>
 		</li>
