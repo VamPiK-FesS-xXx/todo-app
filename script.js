@@ -34,7 +34,34 @@ const notes = [
 		status: true,
 	},
 ];
+document.addEventListener('DOMContentLoaded', initializeNotes);
 
+function initializeNotes(event) {
+	let offsetX = 0;
+	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
+	userTextInNote.forEach((note) => {
+		function beginSliding(e) {
+			offsetX = e.clientX - note.getBoundingClientRect().left;
+			console.log(offsetX);
+			note.onpointermove = slide;
+			note.setPointerCapture(e.pointerId);
+			console.log(e);
+		}
+
+		function stopSliding(e) {
+			note.onpointermove = null;
+			note.releasePointerCapture(e.pointerId);
+		}
+		function slide(e) {
+			const clientX = e.clientX - offsetX;
+			note.style.transform = `translateX(${clientX}px`;
+			console.log(e.clientX);
+		}
+
+		note.onpointerdown = beginSliding;
+		note.onpointerup = stopSliding;
+	});
+}
 /**
  * think about make one more object in object
  * make variable newNote into notes to try to save data
