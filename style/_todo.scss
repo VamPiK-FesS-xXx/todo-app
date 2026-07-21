@@ -131,6 +131,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        touch-action: none;
+
         // transform: translateX(15%);
         // max translateX 25% on both sides
     }
