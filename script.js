@@ -5,43 +5,73 @@ const taskList = document.querySelector('.tasks__list');
 //styled variables
 const label = document.querySelector('label');
 const inputContainer = document.querySelector('.todo__container-functional');
-//object for notes will init with this obj
 
-//comments
-
-/**
- *
- * fix bug with input display error
- * think about objects
- * think about template render
- * later
- * ---
- * also think about controls on tasks
- * ---
- * make a slide effect or drag and drop
- * make a notification and animation that user can slide
- * his notes
- * ---
- * save all notes in localstroge and render they
- */
 const notes = [
 	{
 		task: '123',
 		status: false,
 	},
 	{
-		task: '123',
+		task: '456',
 		status: true,
 	},
 ];
 
-/**
- * think about make one more object in object
- * make variable newNote into notes to try to save data
- * from input value and then push it into template
- *
- */
+document.addEventListener('DOMContentLoaded', initializeNotes);
 
+function initializeNotes(event) {
+	let offsetX = 0;
+	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
+	userTextInNote.forEach((note) => {
+		function beginSliding(e) {
+			offsetX = e.clientX - note.getBoundingClientRect().left;
+			console.log(offsetX);
+			note.onpointermove = slide;
+			note.setPointerCapture(e.pointerId);
+			console.log(e);
+		}
+
+		function stopSliding(e) {
+			note.onpointermove = null;
+			note.releasePointerCapture(e.pointerId);
+		}
+		function slide(e) {
+			const clientX = e.clientX - offsetX;
+			note.style.transform = `translateX(${clientX}px`;
+			console.log(e.clientX);
+		}
+
+		note.onpointerdown = beginSliding;
+		note.onpointerup = stopSliding;
+	});
+}
+
+/**
+ *FOR NEGATIVE X 100 PX FOR POSITIVE 120 PX
+ * i recive all userNotes
+ * a need to make on all notes addEventListener
+ * for drag it on left or right
+ * ---
+ * also i need to think about drag 'item'
+ * now i can drag only text and see the changes
+ * but i need to drag the note body and slide it
+ * now i need to think about it
+ * ---
+ * UPD
+ * i can recieve a clientX and paste it in the style for transform it
+ * also i need to do it smooth for user
+ * i need to think how now i can transform my tasks by X
+ * ---
+ * OKAY I MADE IT SLIDE
+ * but the first i need to know more about how drag work in web
+ * also i need to make -x and x for complete and delete
+ * my error was in one single s that i placed in a wrong place
+ * okay i need to receive negative and positive x's and then i can change my classes or delete notes
+ * ---
+ * need to make my notes slide only on x axis and drag it only on the left or right
+ * now i have a problem with one that, that i'm using a drag and it take item and wait
+ * till i'm drop it into the drop zone
+ */
 input.addEventListener('keydown', () => {
 	//fix the bag with empty input later
 	if (input.value.trim() === '') {
@@ -57,6 +87,7 @@ input.addEventListener('keydown', () => {
 
 		notes.push(userNote);
 		noteTemplate(userNote);
+		initializeNotes(userNote);
 		input.value = '';
 	}
 });
@@ -75,6 +106,8 @@ addBtn.addEventListener('click', () => {
 
 	notes.push(userNote);
 	noteTemplate(userNote);
+	initializeNotes(userNote);
+	console.log(userNote);
 	input.value = '';
 });
 
@@ -87,17 +120,30 @@ function noteTemplate(note) {
 	taskList.insertAdjacentHTML(
 		'beforeend',
 		`
-        <li class="tasks__list-item ${note.status ? '' : 'complete'}">
-		<p class="tasks__list-text">${note.task}</p>
-        </li>
+        <li class="tasks__list-item"  >
+			<div class="tasks__list-bg">
+				<span class="tasks__bg bg-green">
+                    <i class="fa-solid fa-check"></i>
+                        complete
+                </span>
+				<span class="tasks__bg bg-red">
+                    delete
+                        <i class="fa-solid fa-trash"></i>
+                </span>
+			</div>
+				<div class="tasks__list-text" isTrusted='true' isPrimary=true pointerId=2 >
+					<p class = "tasks__text-paragraph">${note.task}</p>
+				</div>
+		</li>
         `,
 	);
 }
-
 //render fucntion which sort through notes object
+
 function renderNote() {
 	notes.forEach((note) => {
 		noteTemplate(note);
 	});
 }
+
 renderNote();
