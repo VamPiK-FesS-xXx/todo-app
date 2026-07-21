@@ -46,32 +46,6 @@ function initializeNotes(event) {
 	});
 }
 
-/**
- *FOR NEGATIVE X 100 PX FOR POSITIVE 120 PX
- * i recive all userNotes
- * a need to make on all notes addEventListener
- * for drag it on left or right
- * ---
- * also i need to think about drag 'item'
- * now i can drag only text and see the changes
- * but i need to drag the note body and slide it
- * now i need to think about it
- * ---
- * UPD
- * i can recieve a clientX and paste it in the style for transform it
- * also i need to do it smooth for user
- * i need to think how now i can transform my tasks by X
- * ---
- * OKAY I MADE IT SLIDE
- * but the first i need to know more about how drag work in web
- * also i need to make -x and x for complete and delete
- * my error was in one single s that i placed in a wrong place
- * okay i need to receive negative and positive x's and then i can change my classes or delete notes
- * ---
- * need to make my notes slide only on x axis and drag it only on the left or right
- * now i have a problem with one that, that i'm using a drag and it take item and wait
- * till i'm drop it into the drop zone
- */
 input.addEventListener('keydown', () => {
 	//fix the bag with empty input later
 	if (input.value.trim() === '') {
@@ -111,11 +85,6 @@ addBtn.addEventListener('click', () => {
 	input.value = '';
 });
 
-//template fucntion for tasks
-/**
- * check the status from the class
- * if status true classname will change to 'complete'
- */
 function noteTemplate(note) {
 	taskList.insertAdjacentHTML(
 		'beforeend',
@@ -138,7 +107,6 @@ function noteTemplate(note) {
         `,
 	);
 }
-//render fucntion which sort through notes object
 
 function renderNote() {
 	notes.forEach((note) => {
