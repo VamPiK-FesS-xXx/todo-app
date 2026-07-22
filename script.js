@@ -18,6 +18,8 @@ const notes = [
 	},
 ];
 document.addEventListener('DOMContentLoaded', initializeNotes);
+
+document.addEventListener('DOMContentLoaded', initializeTemplateNotes);
 // another branch finnaly
 
 /**
@@ -31,7 +33,24 @@ document.addEventListener('DOMContentLoaded', initializeNotes);
  * ---
  * also think about changing classes of tasks
  */
+
 function initializeNotes() {
+	const savedUserNotes = [...notes];
+	console.log(savedUserNotes);
+	const savedNotes = localStorage.setItem(
+		'saved-data',
+		JSON.stringify(savedUserNotes),
+	);
+
+	const savedData = JSON.parse(localStorage.getItem('saved-data'));
+	console.log(savedData);
+	savedData.forEach((savedDataNote) => {
+		noteTemplate(savedDataNote);
+	});
+	// noteTemplate(savedData);
+}
+
+function initializeTemplateNotes() {
 	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
 	userTextInNote.forEach((note) => {
 		let offsetX = 0;
@@ -74,15 +93,15 @@ function initializeNotes() {
  */
 input.addEventListener('keydown', () => {
 	//fix the bag with empty input later
-	if (input.value.trim() === '') {
+	if (input.value.trim().length === 0) {
 		label.style.color = 'red';
 		inputContainer.style.outline = '1px solid red';
 		addBtn.style.background = 'red';
 		return;
-	} else if (input.length > 0) {
-		label.style.color = 'orange';
-		inputContainer.style.outline = '1px solid orange';
-		addBtn.style.background = 'orange';
+	} else if (input.value.trim().length > 0) {
+		label.style.color = '#fff';
+		inputContainer.style.outline = '1px solid #fff';
+		addBtn.style.background = '#124559';
 	}
 	if (event.key === 'Enter') {
 		const userNote = {
@@ -91,8 +110,9 @@ input.addEventListener('keydown', () => {
 		};
 		notes.push(userNote);
 		noteTemplate(userNote);
-		input.value = '';
+		initializeTemplateNotes();
 		initializeNotes();
+		input.value = '';
 	}
 });
 /**
@@ -114,17 +134,18 @@ addBtn.addEventListener('click', () => {
 
 	notes.push(userNote);
 	noteTemplate(userNote);
+	initializeTemplateNotes();
 	initializeNotes();
 	input.value = '';
 });
 
 //template fucntion for tasks
 
-function noteTemplate(note) {
+function noteTemplate(note, index) {
 	taskList.insertAdjacentHTML(
 		'beforeend',
 		`
-        <li class="tasks__list-item"  >
+        <li class="tasks__list-item" data-index = ${index}>
 			<div class="tasks__list-bg">
 				<span class="tasks__bg bg-green">
                     <i class="fa-solid fa-check"></i>
@@ -135,7 +156,7 @@ function noteTemplate(note) {
                         <i class="fa-solid fa-trash"></i>
                 </span>
 			</div>
-				<div class="tasks__list-text" isTrusted='true' isPrimary=true>
+				<div class="tasks__list-text" isTrusted='true' >
 					<p class = "tasks__text-paragraph">${note.task}</p>
 				</div>
 		</li>
@@ -145,9 +166,9 @@ function noteTemplate(note) {
 //render fucntion which sort through notes object
 
 function renderNote() {
-	notes.forEach((note) => {
-		noteTemplate(note);
+	notes.forEach((note, index) => {
+		noteTemplate(note, index);
 	});
 }
 
-renderNote();
+// renderNote();
