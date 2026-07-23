@@ -17,10 +17,19 @@ const notes = [
 		status: true,
 	},
 ];
-document.addEventListener('DOMContentLoaded', initializeNotes);
+// document.addEventListener('DOMContentLoaded', initializeNotes);
 
 document.addEventListener('DOMContentLoaded', initializeTemplateNotes);
 // another branch finnaly
+
+/**
+ * ## all bugs
+ * ---
+ *  - refresh the page mean to delete all notes and render only 2
+ *  - code isn't readble for now need to refactor the code
+ *  - bug with input
+ *  - index on new notes
+ */
 
 /**
  * ### functionality
@@ -93,12 +102,12 @@ function initializeTemplateNotes() {
  */
 input.addEventListener('keydown', () => {
 	//fix the bag with empty input later
-	if (input.value.trim().length === 0) {
+	if (input.value.trim() === '') {
 		label.style.color = 'red';
 		inputContainer.style.outline = '1px solid red';
 		addBtn.style.background = 'red';
 		return;
-	} else if (input.value.trim().length > 0) {
+	} else {
 		label.style.color = '#fff';
 		inputContainer.style.outline = '1px solid #fff';
 		addBtn.style.background = '#124559';
@@ -109,9 +118,11 @@ input.addEventListener('keydown', () => {
 			status: false,
 		};
 		notes.push(userNote);
-		noteTemplate(userNote);
-		initializeTemplateNotes();
-		initializeNotes();
+		renderNote(userNote);
+		console.log(notes);
+		//need to do the thing where the only new one object render and all keeps on notes
+		// initializeTemplateNotes();
+		// initializeNotes();
 		input.value = '';
 	}
 });
@@ -131,11 +142,10 @@ addBtn.addEventListener('click', () => {
 		task: input.value,
 		status: false,
 	};
-
 	notes.push(userNote);
-	noteTemplate(userNote);
-	initializeTemplateNotes();
-	initializeNotes();
+	// renderNote(combinedNotes);
+	// initializeTemplateNotes();
+	// initializeNotes();
 	input.value = '';
 });
 
@@ -164,11 +174,17 @@ function noteTemplate(note, index) {
 	);
 }
 //render fucntion which sort through notes object
-
+/**
+ *
+ * need something like watch to all notes
+ *  check the id's of notes and render the last one note all the time
+ * also it'll helps for the future with the complete delete
+ * and localstorage
+ */
 function renderNote() {
-	notes.forEach((note, index) => {
+	notes.map((note, index) => {
 		noteTemplate(note, index);
 	});
 }
 
-// renderNote();
+renderNote();
