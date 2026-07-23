@@ -19,7 +19,8 @@ const notes = [
 ];
 // document.addEventListener('DOMContentLoaded', initializeNotes);
 
-document.addEventListener('DOMContentLoaded', initializeTemplateNotes);
+document.addEventListener('DOMContentLoaded', initializeNotesForSlide);
+document.addEventListener('DOMContentLoaded', loadNotes());
 // another branch finnaly
 
 /**
@@ -43,23 +44,22 @@ document.addEventListener('DOMContentLoaded', initializeTemplateNotes);
  * also think about changing classes of tasks
  */
 
-function initializeNotes() {
-	const savedUserNotes = [...notes];
-	console.log(savedUserNotes);
-	const savedNotes = localStorage.setItem(
-		'saved-data',
-		JSON.stringify(savedUserNotes),
-	);
-
-	const savedData = JSON.parse(localStorage.getItem('saved-data'));
-	console.log(savedData);
-	savedData.forEach((savedDataNote) => {
-		noteTemplate(savedDataNote);
-	});
-	// noteTemplate(savedData);
+function saveNotes() {
+	const allNotes = localStorage.setItem('saved-data', JSON.stringify(notes));
 }
 
-function initializeTemplateNotes() {
+function loadNotes() {
+	const allSavedNotes = JSON.parse(localStorage.getItem('saved-data'));
+	if (allSavedNotes) {
+		notes.push(...allSavedNotes);
+	}
+
+	notes.forEach((note, index) => {
+		noteTemplate(note, index);
+	});
+}
+
+function initializeNotesForSlide() {
 	const userTextInNote = taskList.querySelectorAll('.tasks__list-text');
 	userTextInNote.forEach((note) => {
 		let offsetX = 0;
@@ -118,11 +118,10 @@ input.addEventListener('keydown', () => {
 			status: false,
 		};
 		notes.push(userNote);
-		renderNote(userNote);
-		console.log(notes);
-		//need to do the thing where the only new one object render and all keeps on notes
-		// initializeTemplateNotes();
-		// initializeNotes();
+		const newIndex = notes.length - 1;
+		noteTemplate(userNote, newIndex);
+		initializeNotesForSlide();
+		saveNotes();
 		input.value = '';
 	}
 });
@@ -143,9 +142,10 @@ addBtn.addEventListener('click', () => {
 		status: false,
 	};
 	notes.push(userNote);
-	// renderNote(combinedNotes);
-	// initializeTemplateNotes();
-	// initializeNotes();
+	const newIndex = notes.length - 1;
+	noteTemplate(userNote, newIndex);
+	initializeNotesForSlide();
+	saveNotes();
 	input.value = '';
 });
 
@@ -186,5 +186,3 @@ function renderNote() {
 		noteTemplate(note, index);
 	});
 }
-
-renderNote();
